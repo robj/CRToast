@@ -901,22 +901,6 @@ static CGFloat kCRCollisionTweak = 0.5;
 
 - (void)setOptions:(NSDictionary *)options {
     NSMutableDictionary *cleanOptions = [options mutableCopy];
-    [options enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        //Check keys validity followed by checking objects type validity
-        if ([kCRToastKeyClassMap.allKeys indexOfObjectIdenticalTo:key] == NSNotFound) {
-            NSLog(@"[CRToast] : ERROR given unrecognized key %@ in options with object %@",
-                  key,
-                  obj);
-            [cleanOptions removeObjectForKey:key];
-        } else if (![obj isKindOfClass:NSClassFromString(kCRToastKeyClassMap[key])]) {
-            NSLog(@"[CRToast] : ERROR given %@ for key %@ was expecting Class %@ but got Class %@, passing default on instead",
-                  obj,
-                  key,
-                  kCRToastKeyClassMap[key],
-                  NSStringFromClass([obj class]));
-            [cleanOptions removeObjectForKey:key];
-        }
-    }];
     _options = [NSDictionary dictionaryWithDictionary:cleanOptions];
     [self warnAboutSensibility];
 }
